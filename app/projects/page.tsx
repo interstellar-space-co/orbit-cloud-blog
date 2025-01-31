@@ -13,7 +13,7 @@ export default function Projects() {
             Use Cases
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            Explore examples how Darwin accelerates innovation in materials science.
+            Explore how Orbit accelerates innovation in DeFi by optimizing protocol performance and mitigating risks through data-driven simulations and analytics.
           </p>
         </div>
         <div className="container py-12">
