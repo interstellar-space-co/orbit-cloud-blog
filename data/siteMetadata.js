@@ -1,14 +1,14 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Darwin Blog',
-  author: 'Darwin',
-  headerTitle: 'Darwin Blog',
-  description: 'Explore how Darwin leverages advanced computational methods, including Density Functional Theory (DFT), for cutting-edge molecular and material modeling.',
+  title: 'Orbit Blog',
+  author: 'Orbit',
+  headerTitle: 'Orbit Blog',
+  description: 'Discover how Orbit utilizes advanced quantitative models, simulations, and DeFi-specific risk analytics to optimize capital efficiency, mitigate systemic risks, and drive sustainable growth across decentralized protocols.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
   siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
-  siteLogo: '/static/images/darwin.png',
+  siteLogo: '/static/images/orbitsky.png',
   socialBanner: '/static/images/twitter-card.png',
   mastodon: 'https://mastodon.social/@mastodonuser',
   // email: 'address@yoursite.com',
