@@ -7,30 +7,29 @@ interface Project {
 
 const projectsData: Project[] = [
   {
-    title: 'Polymer Design',
-    description: `Using Darwin, researchers can design and optimize new polymers with desired mechanical, thermal, and chemical properties. By simulating polymer behavior at the molecular level, Darwin aids in predicting performance and identifying promising candidates for various applications.`,
-    imgSrc: '/static/images/polymerdesign.webp',
+    title: 'Protocol Parameter Optimization',
+    description: `Gauntlet provides DeFi protocols with precise, simulation-based recommendations to dynamically optimize key parameters, such as collateral factors, liquidation thresholds, and interest rate curves. This ensures that protocols remain resilient against market volatility while maximizing capital efficiency.`,
+    imgSrc: '/static/images/parameter-optimization.webp',
     href: '',
   },
   {
-    title: 'Drug Discovery and Development',
-    description: `Leveraging Darwin's advanced computational chemistry capabilities, researchers can accelerate drug discovery and development. By simulating drug-target interactions at the molecular level, Darwin aids in identifying potential drug candidates, optimizing lead compounds, and predicting pharmacokinetic and toxicological properties, thus streamlining the drug development process.`,
-    imgSrc: '/static/images/psivant.webp',
+    title: 'Liquidation Risk Mitigation',
+    description: `Using Gauntlet's on-chain simulations and stress tests, protocols can minimize cascading liquidations and systemic risk. By dynamically adjusting liquidation penalties and thresholds, Gauntlet helps prevent feedback loops that could destabilize entire markets.`,
+    imgSrc: '/static/images/liquidation-mitigation.webp',
     href: '',
   },
   {
-    title: 'Battery Material Design',
-    description: `Darwin's platform enables the development of advanced battery materials by simulating electrochemical properties and stability. This accelerates the discovery of materials with higher energy densities and longer lifespans, crucial for next-generation batteries in electric vehicles and renewable energy storage.`,
-    imgSrc: '/static/images/battery-design.webp',
+    title: 'On-chain Oracle Performance Monitoring',
+    description: `Gauntlet's platform continuously monitors on-chain oracles for price deviations, delays, and potential vulnerabilities. By identifying oracle lag and anomalies, it helps protocols mitigate over-liquidation risks and protect against price manipulation.`,
+    imgSrc: '/static/images/oracle-monitoring.webp',
     href: '',
   },
   {
-    title: 'Forensic Identification',
-    description: `Darwin's platform, in combination with NMR Spectroscopy, plays a critical role in forensic science for the identification of unknown chemical compounds. By offering detailed molecular simulations and precise analysis, Darwin enhances the accuracy and efficiency of forensic investigations, aiding in the swift identification of substances in criminal cases and toxicology studies.`,
-    imgSrc: '/static/images/forensic_identification.jpeg',
+    title: 'Stress Testing and Tail-Risk Management',
+    description: `Gauntlet performs extensive stress testing to simulate extreme market conditions, such as liquidity crises, sudden price shocks, and cascading liquidations. Protocols use these insights to proactively adjust risk parameters and build long-term stability.`,
+    imgSrc: '/static/images/stress-testing.webp',
     href: '',
   },
 ]
 
 export default projectsData
-
