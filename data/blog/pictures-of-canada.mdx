@@ -1,89 +1,145 @@
 ---
-title: "Density Functional Theory (DFT) Functions Explained"
-date: '2024-04-04'
-tags: ['molecular-simulation', 'theory']
-draft: false
-summary: 'Understanding the application of Density Functional Theory (DFT) in Darwin software for accurate molecular and material modeling.'
+title: "Decentralized Perpetual AMM Risks Explained"  
+date: '2025-01-30'  
+tags: ['perpetuals', 'risk-modeling', 'AMM', 'DeFi']  
+draft: false  
+summary: 'A comprehensive look into the core risks of Decentralized Perpetual Automated Market Makers (AMMs), with mathematical insights into funding rates, liquidation mechanics, and impermanent loss.'  
 ---
 
 # Introduction
 
-Density Functional Theory (DFT) is a fundamental computational approach used to investigate the electronic structure of molecules and materials. **DFT** calculates the properties of many-electron systems using functionals, meaning functions of another function, specifically the electron density. This article explores the basics of **DFT simulations**, its mathematical formulation, and how it is integrated into **Darwin's AI-based drug discovery** and material modeling workflows.
+Decentralized perpetual contracts have become a cornerstone of the decentralized finance (DeFi) ecosystem, enabling users to trade perpetual futures without an expiration date. These contracts are facilitated by **Automated Market Makers (AMMs)**, which algorithmically provide liquidity to traders. However, the design of decentralized perpetual AMMs introduces several risk vectors that must be understood to ensure robust system performance and optimal trader outcomes. This article explores key risks, including **funding rate risks**, **liquidation risks**, and **impermanent loss**, along with quantitative models to describe these risks.
 
-# The Kohn-Sham Approach in DFT
+---
 
-One of the key innovations in DFT is the **Kohn-Sham formulation**, which simplifies the complex many-body Schrödinger equation into a system of **non-interacting particles** under an effective potential. This reduces computational complexity while preserving accuracy in predicting material properties.
+# Funding Rate Mechanism and Its Risks  
 
-The **Kohn-Sham equations** are given as:
+The **funding rate** ensures that the perpetual futures price remains anchored to the underlying spot price. Unlike traditional futures, perpetual contracts require a funding payment between long and short positions to correct deviations from the spot price. 
 
-$$
-\left[ -\frac{\hbar^2}{2m} \nabla^2 + V_{\text{eff}}[\rho(\mathbf{r})] \right] \psi_i(\mathbf{r}) = \epsilon_i \psi_i(\mathbf{r})
-$$
-
-where:
-- $\rho(\mathbf{r})$ is the **electron density**,
-- $V_{\text{eff}}$ is the **effective potential**,
-- $\psi_i$ are the Kohn-Sham orbitals, and
-- $\epsilon_i$ are the corresponding eigenvalues (energy levels).
-
-The electron density $\rho(\mathbf{r})$ is obtained as a sum over the Kohn-Sham orbitals:
+The **funding rate** $f(t)$ is typically calculated as:
 
 $$
-\rho(\mathbf{r}) = \sum_i^{\text{occ}} |\psi_i(\mathbf{r})|^2
+f(t) = \frac{P_{\text{perp}}(t) - P_{\text{spot}}(t)}{P_{\text{spot}}(t)} \cdot k
 $$
 
-This formulation allows Darwin’s software to compute the electronic structure of drug molecules or materials while maintaining computational efficiency.
+where:  
+- $P_{\text{perp}}(t)$ is the price of the perpetual contract at time $t$,  
+- $P_{\text{spot}}(t)$ is the spot price of the underlying asset at time $t$,  
+- $k$ is a scaling parameter determined by the protocol (often proportional to the time interval between funding payments).  
 
-# Exchange-Correlation Functionals
+## Risk: Overcompensated Funding Rate  
 
-The most challenging part of DFT is the **exchange-correlation functional**, $E_{xc}[\rho(\mathbf{r})]$, which accounts for the complex quantum interactions between electrons. Different **approximation methods** are used to model this term:
+When the funding rate is excessively high, long or short positions may receive large payments that create **distortions in open interest**. This overcompensation can lead to:  
+- **Market manipulation**: Traders may enter positions purely to collect funding fees, distorting price discovery.  
+- **Liquidity imbalances**: Excessive long or short open interest can increase the AMM's risk exposure.  
 
-1. **Local Density Approximation (LDA)**: 
-   - Assumes that the exchange-correlation energy is a local function of the electron density.
-   - Good for systems with uniform electron distribution but limited for strongly inhomogeneous systems.
-
-2. **Generalized Gradient Approximation (GGA)**:
-   - Incorporates both the electron density $\rho(\mathbf{r})$ and its gradient $\nabla \rho(\mathbf{r})$.
-   - Provides better accuracy for molecular and material systems where electron density is not uniform.
-
-Darwin uses **hybrid functionals**, a mix of **DFT** and **Hartree-Fock** methods, for increased accuracy in molecular simulations.
-
-# Self-Consistent Field (SCF) Method
-
-To solve the Kohn-Sham equations, DFT employs the **Self-Consistent Field (SCF)** method. The steps include:
-1. **Initial Guess**: Start with an initial guess for the electron density $\rho(\mathbf{r})$.
-2. **Solve Kohn-Sham Equations**: Solve for the Kohn-Sham orbitals $\psi_i(\mathbf{r})$ and eigenvalues $\epsilon_i$ using the current effective potential $V_{\text{eff}}$.
-3. **Update Electron Density**: Update $\rho(\mathbf{r})$ based on the new $\psi_i(\mathbf{r})$.
-4. **Repeat Until Convergence**: Iterate until the difference between successive electron densities falls below a predefined threshold.
-
-This iterative method ensures the accuracy of computed properties like **binding energies**, **charge densities**, and **reaction pathways**.
-
-# Applications of DFT in Drug Discovery and Materials Modeling
-
-In **Darwin’s software**, DFT plays a crucial role in the **molecular modeling** of drug candidates, predicting how small molecules bind to protein targets. For example:
-
-- **Alzheimer's drug discovery**: By modeling interactions between candidate drugs and amyloid-beta plaques, DFT helps refine binding affinities at the quantum level.
-  
-- **Parkinson's treatment development**: DFT simulations are used to study how pre-approved dopamine agonists interact with alpha-synuclein aggregates, helping optimize drug formulations.
-
-In addition, DFT is used in **material science** within Darwin to predict the properties of **catalysts**, **polymers**, and other materials critical to biotechnology and energy solutions.
-
-# Example: Calculating Binding Energy
-
-To demonstrate DFT's utility, consider the calculation of **binding energy** between a drug and its target protein. The total binding energy, $E_{\text{binding}}$, is calculated as:
+To quantify the funding impact on system risk, consider the **cumulative funding payment** $F(T)$ over a period $[0, T]$:  
 
 $$
-E_{\text{binding}} = E_{\text{complex}} - (E_{\text{protein}} + E_{\text{drug}})
+F(T) = \int_0^T f(t) \cdot \text{OI}(t) \, dt
 $$
 
-where:
-- $E_{\text{complex}}$ is the total energy of the drug-protein complex,
-- $E_{\text{protein}}$ is the energy of the isolated protein, and
-- $E_{\text{drug}}$ is the energy of the isolated drug.
+where $\text{OI}(t)$ represents the open interest at time $t$. High volatility in $f(t)$ can increase $F(T)$, which may lead to **protocol insolvency** if traders withdraw more than the AMM can support.
 
-DFT's accuracy in calculating these energies at the **quantum level** allows Darwin to make precise predictions about which drug candidates are most likely to succeed in clinical trials.
+---
 
-# Conclusion
+# Liquidation Risks and Collateralization  
 
-**Density Functional Theory (DFT)** is an essential tool in **Darwin's AI-driven platform**, providing quantum-level accuracy for **molecular and material simulations**. By solving the **Kohn-Sham equations** and leveraging advanced exchange-correlation functionals, DFT allows for the precise calculation of **binding affinities**, **reaction pathways**, and material properties, making it a cornerstone in the fields of **drug discovery** and **biotechnology**.
+Liquidation occurs when a trader’s position falls below the **maintenance margin requirement**. Liquidation risk is influenced by **price volatility** and **collateral efficiency**. The **liquidation threshold** $\theta$ is defined as:
 
+$$
+\theta = \frac{\text{Margin}}{\text{Position Size}} \cdot \frac{P_{\text{liquidation}}}{P_{\text{entry}}}
+$$  
+
+where:  
+- $\text{Margin}$ is the initial collateral,  
+- $\text{Position Size}$ is the size of the trader’s leveraged position,  
+- $P_{\text{liquidation}}$ is the price at which liquidation occurs, and  
+- $P_{\text{entry}}$ is the price at which the position was entered.  
+
+## Risk: Price Slippage and Cascading Liquidations  
+
+In highly volatile markets, large liquidations can trigger **price slippage**, exacerbating losses. This feedback loop can lead to **cascading liquidations** as collateral from liquidated positions is insufficient to cover losses. The slippage $S$ can be modeled as:  
+
+$$
+S = \alpha \cdot \Delta Q
+$$  
+
+where:  
+- $\alpha$ is the AMM’s price impact coefficient,  
+- $\Delta Q$ is the change in net position due to liquidations.  
+
+**Mitigation strategies** include setting **progressive liquidation thresholds** or utilizing **off-chain oracles** to assess collateral requirements in real-time.
+
+---
+
+# Impermanent Loss and AMM Risks  
+
+AMMs continuously rebalance their pools to provide liquidity, leading to **impermanent loss (IL)**—a temporary loss incurred by liquidity providers when the asset prices diverge from their initial values. The impermanent loss for an AMM holding two assets $X$ and $Y$ is given by:  
+
+$$
+\text{IL} = 2 \sqrt{\frac{P_{\text{final}}}{P_{\text{initial}}}} - \frac{P_{\text{final}}}{P_{\text{initial}}} - 1
+$$  
+
+where:  
+- $P_{\text{initial}}$ is the initial price ratio of asset $X$ to $Y$,  
+- $P_{\text{final}}$ is the final price ratio of asset $X$ to $Y$.  
+
+## Risk: Extended Divergence in Prices  
+
+For perpetual AMMs, the risk of **extended price divergence** is compounded by open interest and funding payments. The AMM’s **liquidity coverage ratio** (LCR) can be defined as:  
+
+$$
+\text{LCR} = \frac{\text{Total Liquidity}}{\text{Open Interest}}
+$$  
+
+An LCR below 1 signals that the AMM may not have sufficient liquidity to support further price movement without incurring losses.
+
+---
+
+# Case Study: Evaluating AMM Risk Under Volatile Conditions  
+
+Consider a decentralized AMM where:  
+- The initial liquidity is $10M,  
+- The leverage ratio is 10x, and  
+- The underlying asset price increases by 30% in one day.  
+
+### Step 1: Funding Rate Calculation  
+Assume the funding rate $f(t) = 0.05$ over the 24-hour period:  
+
+$$
+F(24) = f(t) \cdot \text{OI}(t) = 0.05 \times 100M = 5M
+$$  
+
+This funding payment must be absorbed by either traders or the AMM pool, reducing available liquidity.  
+
+### Step 2: Assessing Impermanent Loss  
+With a 30% price increase, the impermanent loss is calculated as:  
+
+$$
+\text{IL} = 2 \sqrt{1.3} - 1.3 - 1 = -0.037 \quad (3.7\% \, \text{loss})
+$$  
+
+For a $10M liquidity pool, this corresponds to a $370k loss, compounded by the $5M funding payment.  
+
+### Step 3: Liquidation Risk Assessment  
+Given the leverage, cascading liquidations are likely if prices continue to diverge, resulting in **slippage** due to insufficient liquidity.  
+
+---
+
+# Mitigation Strategies  
+
+1. **Dynamic Funding Rates:** Implement adaptive funding rates based on volatility.  
+2. **Progressive Liquidation Thresholds:** Set liquidation thresholds that increase with market volatility.  
+3. **Insurance Funds:** Establish protocol reserves to cover extreme losses.  
+4. **Oracle Integration:** Use off-chain oracles for real-time collateral updates.  
+
+---
+
+# Conclusion  
+
+Decentralized perpetual AMMs offer tremendous opportunities for traders but come with significant risks, particularly related to **funding rates**, **liquidations**, and **impermanent loss**. By understanding these risks quantitatively, protocols can implement effective mitigation strategies to ensure long-term stability and profitability.
+
+Orbit continues to develop robust risk models to optimize AMM designs, ensuring DeFi protocols remain resilient even under extreme market conditions.
+
+---
